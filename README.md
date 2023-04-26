@@ -1,23 +1,25 @@
-## Energy Web - JavaScript/TypeScript Developer recruitment task
+# Energy Web - JavaScript/TypeScript Developer recruitment task
 
 ## Solution
 
-## Complexity
+### Complexity
 
-The time complexity of the algorithm is O(2 _ g) + O(g _ m), so it is basically O(g _ m), being g the number of genres passed as an argument and m the number of movies in the database. The main bottleneck of the algorithm is the iteration over the movies array. On every iteration, the function checks that all movie genres are included on the genres array passed as an argument. This is why the time complexity is O(g _ m) in the worst case scenario. However, not every movie will have all the genres filters, so it could be less than that.
+The time complexity of the algorithm is O(2 \* g) + O(g \* m), so it is basically **O(g \* m)**, being `g` the number of genres passed as an argument and `m` the number of movies in the database. The main bottleneck of the algorithm is the iteration over the movies array. On every iteration, the function checks that all movie genres are included on the genres array passed as an argument. This is why the time complexity is O(g \* m) in the worst case scenario. However, not every movie will have all the genres filters, so it could be less than that.
 
-For computing the variables moviesRankedByMatches and rankedMovies we need to iterate over the genres array (g) twice; that is why I mentioned O(2 \* g) at the beginning. However, given that they are not the main bottleneck, they can be safely ignored.
+For computing the variables `moviesRankedByMatches` and `rankedMovies` we need to iterate over the genres array (`g`) twice; that is why I mentioned O(2 \* g) at the beginning. However, given that they are not the main bottleneck, they can be safely ignored.
 
 ### Considerations
 
-Initially I used forEach and for .. of to iterate over the movies array, which is the performance bottleneck. Even though they are the most readable approach, they are not the most performant, so I ended up using for loops. In case you want to see a more readable approach, please check the previous commit.
+Initially I used forEach and for .. of to iterate over the movies array, which is the performance bottleneck. Even though they are the most readable approach, they are not the most performant, so I ended up using for loops. In case you want to see a more readable approach, please check the `feat: return movies ranked by genres matches` commit.
 
 To test code's performance I have created a basic benchmark using the `performance.now()` method. I have tested the code with the original 163 movies replicated 1000 times (a dataset of 163000 movies) and the results are the following:
 
-- 1st version: 31.49 ms -> ORIGINAL
-- 2nd version: 33.82 ms -> With for..of instead of forEach
-- 3rd version: 30.90 ms -> With new Set(genres)
-- 4th version: 28.62 ms -> Using for loops
+| Version | Time     | Observations                    |
+| ------- | -------- | ------------------------------- |
+| 1st     | 31.49 ms | ORIGINAL                        |
+| 2nd     | 33.82 ms | With for..of instead of forEach |
+| 3rd     | 30.90 ms | Using Set for genres            |
+| 4th     | 28.62 ms | Using for loops                 |
 
 I have transformed the array argument `genres` to a Set, which is theoretically better for indexing. However, the improvement was very small and it may not be significant. It is interesting to note that, besides being forEach theoretically less performant than for..of, the former is actually faster in this case.
 
