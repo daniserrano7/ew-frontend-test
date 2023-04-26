@@ -4,9 +4,17 @@ const moviesDb = require("./db.json").movies as Movie[];
 // Simulates a database call
 const getMovies = (): Movie[] => moviesDb;
 
+// Larget dataset to test performance
+export const mockGetMovies = (): Movie[] =>
+  Array.from({ length: 1000 })
+    .map(() => moviesDb)
+    .flat();
+
 export const getFilteredMovies = ({ genres }: { genres: Genre[] }): Movie[] => {
   const movies = getMovies();
-  const genresIsEmpety = genres.length === 0;
+  // const movies = mockGetMovies();
+  const genresSet = new Set(genres);
+  const genresIsEmpety = genresSet.size === 0;
 
   if (genresIsEmpety) {
     const randomIndex = Math.floor(Math.random() * movies.length);
@@ -37,6 +45,6 @@ export const getFilteredMovies = ({ genres }: { genres: Genre[] }): Movie[] => {
 
   // Given that we want to prioritize movies with more matches, we reverse the array and flatten it
   // to get a single array of movies from the most matched to the least matched
-  const rankedMovies = moviesRankedByMatches.slice().reverse().flat();
+  const rankedMovies = moviesRankedByMatches.reverse().flat();
   return rankedMovies;
 };

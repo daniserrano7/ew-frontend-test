@@ -1,0 +1,13 @@
+Execution time for 1000*146 movies -> Mean 10 times
+
+1. version: 31.49 ms -> ORIGINAL
+2. version: 33.82 ms -> With for..of instead of forEach
+3. version: 30.90 ms -> With new Set(genres)
+
+CONSIDERATIONS:
+
+Even though forEach is suposedly less performant than for..of, it didn't show any significant difference. Actually,
+forEach proved to be slightly better than for..of, so I decided to use forEach.
+
+I have transformed the array argument `genres` to a Set, which is theoretically better for 
+indexing. However, the improvement was very small and it may not be significative.
